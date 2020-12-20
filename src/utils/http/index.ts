@@ -50,7 +50,7 @@ const transform: AxiosTransform = {
         ElMessage.error(message || errorMessageText || "操作失败！");
       } else if (!hasSuccess && options.errorMessageMode === "modal") {
         // errorMessageMode=‘custom-modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
-        // Modal.confirm({ title: "错误提示", content: message });
+        ElMessageBox.confirm(message, "错误提示");
       }
     }
 
