@@ -8,18 +8,19 @@ import router from "/@/routers";
 import NProgress from "nprogress"; // progress bar
 
 import pageStore from "/@/store/page";
+import axios from "axios";
 
 export default {
   name: "App",
   setup(props, context) {
-    context.emit("test 2009");
-
     const isRouterAlive = ref(true);
     const reload = () => {
       NProgress.start();
+
       isRouterAlive.value = false;
       nextTick(function () {
         isRouterAlive.value = true;
+
         NProgress.done();
       });
     };
