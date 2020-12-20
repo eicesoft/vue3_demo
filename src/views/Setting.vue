@@ -1,6 +1,6 @@
 <template>
   <div>
-    Setting {{ count }}
+    Setting {{ count }} {{ pageStore.title }}
     <div>
       <input type="text" :value="count" />
       <button @click="add">Test</button>
@@ -10,6 +10,8 @@
 
 <script>
 import { ref } from "vue";
+import pageStore from "/@/store/page";
+
 export default {
   setup() {
     const count = ref(0);
@@ -18,7 +20,7 @@ export default {
       count.value++;
     };
 
-    return { count, add };
+    return { count, add, pageStore: pageStore.useState() };
   }
 };
 </script>
