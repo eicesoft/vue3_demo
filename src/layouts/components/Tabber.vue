@@ -12,30 +12,42 @@
   </div>
 </template>
 
-<script>
-import { ref, computed } from "vue";
+<script lang="ts">
+import { ref, computed, defineComponent } from "vue";
+import router from "/@/routers";
 
-export default {
-  props: {},
+export default defineComponent({
+  name: "ice-Tabber",
   setup() {
-    const tabs = ref([]);
-    tabs.value.push({
-      name: "test",
-      is_active: true
-    });
-    tabs.value.push({
-      name: "test2",
-      is_active: false
-    });
+    const tabs = ref([
+      {
+        name: "Home",
+        is_active: false,
+        path: "/home"
+      },
+      {
+        name: "Setting",
+        is_active: false,
+        path: "/setting"
+      }
+    ]);
+
+    for (let t of tabs.value) {
+      if (t.path == router.currentRoute.value.path) {
+        t.is_active = true;
+      }
+    }
+    // tabs.value.push();
     const tabClick = tab => {
       for (let t of tabs.value) {
         t.is_active = false;
       }
       tab.is_active = true;
+      router.push(tab.path);
     };
     return { tabs, tabClick };
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -69,7 +81,7 @@ $active-color: #cbe2f8;
     i {
       border-radius: 30px;
       &:hover {
-        color: $active-color;
+        color: #000;
         background-color: $active-color;
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    Setting {{ count }}
+    Setting {{ count }} {{ pageStore.title }}
     <div>
       <input type="text" :value="count" />
       <button @click="add">Test</button>
@@ -10,15 +10,21 @@
 
 <script>
 import { ref } from "vue";
+import pageStore from "/@/store/page";
+import { useEventbus } from "/@/utils/eventbus";
+
 export default {
   setup() {
+    const { $emit } = useEventbus();
+
     const count = ref(0);
     console.log("setup");
     const add = () => {
       count.value++;
+      $emit("test", { count });
     };
 
-    return { count, add };
+    return { count, add, pageStore: pageStore.useState() };
   }
 };
 </script>
