@@ -85,7 +85,7 @@ export default [
               path: "/test",
               meta: {
                 title: "测试demo",
-                icon: "el-icon-user"
+                icon: "el-icon-share"
               },
               children: [
                 {

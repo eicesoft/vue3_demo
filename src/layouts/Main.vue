@@ -28,9 +28,11 @@ import {
   computed,
   watch,
   provide,
+  inject,
   defineComponent,
   onMounted,
-  onUnmounted
+  onUnmounted,
+  getCurrentInstance
 } from "vue";
 import { useRoute } from "vue-router";
 
@@ -49,7 +51,10 @@ const setTitle = title => {
 export default defineComponent({
   name: "MainLayout",
   components: { Header, Menu, Logo },
-  setup(props, ctx) {
+  setup(props, context) {
+    // const { ctx } = getCurrentInstance(); //获取上下文实例，ctx=vue2的this
+    // const _ = inject("lodash");
+    console.log("Inject lodash version: ", $_.VERSION);
     onMounted(() => {});
     const route = useRoute();
     setTitle(router.currentRoute.value.meta.title);

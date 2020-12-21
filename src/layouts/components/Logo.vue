@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
     <img src="/@/assets/images/logo.png" alt="" />
-    <h2 v-if="!collapsed" class="title">eIce Dashbroad</h2>
+    <h2 v-if="!collapse" class="title">eIce Dashbroad</h2>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 export default {
   name: "logo",
   props: {
-    collapsed: {
+    collapse: {
       type: Boolean
     }
   }
