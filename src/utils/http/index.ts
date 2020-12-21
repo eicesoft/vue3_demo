@@ -6,6 +6,7 @@ import { AxiosResponse } from "axios";
 import { isString } from "/@/utils/is/index";
 import { ElMessage, ElMessageBox } from "element-plus";
 import qs from "qs";
+import { store } from "/@/store";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -168,7 +169,7 @@ const transform: AxiosTransform = {
     // 请求之前处理config
     // const token = store.getters.token;
 
-    const token = localStorage.getItem("token");
+    const token = store.getters.token;
     if (token) {
       config.headers.token = token;
     }
@@ -227,7 +228,7 @@ const axios = new RxAxios({
     formatDate: true,
     // 消息提示类型
     errorMessageMode: "none",
-    isShowSuccessMessage: true,
+    isShowSuccessMessage: false,
     // 接口地址
     apiUrl: process.env.VUE_APP_API_URL
   },

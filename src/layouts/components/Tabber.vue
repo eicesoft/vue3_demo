@@ -7,7 +7,7 @@
       v-for="tab in tabs"
     >
       {{ tab.name }}
-      <i class="el-icon-close"></i>
+      <i class="el-icon-close" @click.stop="tabClose(tab)"></i>
     </div>
   </div>
 </template>
@@ -15,37 +15,48 @@
 <script lang="ts">
 import { ref, computed, defineComponent } from "vue";
 import router from "/@/routers";
+import { store } from "/@/store";
 
 export default defineComponent({
   name: "ice-Tabber",
   setup() {
-    const tabs = ref([
-      {
-        name: "Home",
-        is_active: false,
-        path: "/home"
-      },
-      {
-        name: "Setting",
-        is_active: false,
-        path: "/setting"
-      }
-    ]);
+    const { fullPath, meta } = router.currentRoute.value;
 
-    for (let t of tabs.value) {
-      if (t.path == router.currentRoute.value.path) {
-        t.is_active = true;
-      }
-    }
-    // tabs.value.push();
+    store.dispatch("tab/add", {
+      name: meta.title,
+      is_active: true,
+      path: fullPath
+    });
+    console.log();
+
+    // const tabs = ref([
+    //   {
+    //     name: meta.title,
+    //     is_active: true,
+    //     path: fullPath
+    //   }
+    // ]);
+
+    // // for (let t of tabs.value) {
+    // //   if (t.path == router.currentRoute.value.path) {
+    // //     t.is_active = true;
+    // //   }
+    // // }
+    // // tabs.value.push();
+    // const tabClick = tab => {
+    //   for (let t of tabs.value) {
+    //     t.is_active = false;
+    //   }
+    //   tab.is_active = true;
+    //   router.push(tab.path);
+    // };
     const tabClick = tab => {
-      for (let t of tabs.value) {
-        t.is_active = false;
-      }
-      tab.is_active = true;
-      router.push(tab.path);
+      store.dispatch("tab/click", tab);
     };
-    return { tabs, tabClick };
+    const tabClose = tab => {
+      store.dispatch("tab/close", tab);
+    };
+    return { tabs: store.getters["tab/all_tabs"], tabClick, tabClose };
   }
 });
 </script>

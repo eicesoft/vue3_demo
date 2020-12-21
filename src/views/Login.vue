@@ -30,6 +30,7 @@ import { reactive, toRefs, defineComponent, ref } from "vue";
 import { ElMessage } from "element-plus";
 import { useRoute, useRouter } from "vue-router";
 import { doLogin, test } from "/@/api/user";
+import { store } from "/@/store";
 
 export default defineComponent({
   name: "Login",
@@ -43,27 +44,28 @@ export default defineComponent({
       const { username, password } = form.value;
 
       try {
-        let { menus, permissions, token, user } = await doLogin(form.value);
-        localStorage["token"] = token;
+        let { token } = await doLogin(form.value);
+        // localStorage["token"] = token;
+        // localStorage["menus"] = JSON.stringify(menus);
+        // localStorage["permissions"] = JSON.stringify(permissions);
+        // localStorage["user"] = JSON.stringify(user);
+        store.dispatch("user/setToken", token);
+        ElMessage.success({
+          message: "登录成功",
+          type: "success"
+        });
 
-        await test({});
+        const toPath = decodeURIComponent(
+          (route.query?.redirect || "/") as string
+        );
+        router.replace(toPath);
+        // await test({});
       } catch (e) {
         form.value.username = "";
         form.value.password = "";
       }
-      // ElMessage.success({
-      //   message: "登录成功",
-      //   type: "success"
-      // });
-      // const toPath = decodeURIComponent(
-      //   (route.query?.redirect || "/") as string
-      // );
-      // router.replace(toPath).then(_ => {
-      //   if (route.name == "login") {
-      //     router.replace("/");
-      //   }
-      // });
-      console.log(username, password);
+      //
+      // console.log(username, password);
     };
 
     return { form, onSubmit };

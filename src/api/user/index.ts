@@ -13,6 +13,13 @@ export function doLogin(params: Object) {
   });
 }
 
+export function getUserInfo() {
+  return http.request({
+    url: "/info",
+    method: RequestEnum.GET
+  });
+}
+
 /**
  * 测试
  * @param params

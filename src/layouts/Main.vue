@@ -23,13 +23,24 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, watch, provide, defineComponent } from "vue";
+import {
+  ref,
+  computed,
+  watch,
+  provide,
+  defineComponent,
+  onMounted,
+  onUnmounted
+} from "vue";
 import { useRoute } from "vue-router";
 
 import router from "/@/routers";
 
 import pageStore from "/@/store/page";
+import { store } from "/@/store";
+
 import { Header, Menu, Logo } from "/@/layouts/components";
+
 const setTitle = title => {
   pageStore.setTitle(title);
   document.title = title;
@@ -38,14 +49,19 @@ const setTitle = title => {
 export default defineComponent({
   name: "MainLayout",
   components: { Header, Menu, Logo },
-  setup() {
+  setup(props, ctx) {
+    onMounted(() => {});
     const route = useRoute();
-
-    // console.log("Set: ", router.currentRoute.value.meta);
     setTitle(router.currentRoute.value.meta.title);
     watch(router.currentRoute, value => {
       console.log(value, "路由改变");
       setTitle(value.meta.title);
+
+      store.dispatch("tab/add", {
+        name: value.meta.title,
+        is_active: true,
+        path: value.fullPath
+      });
     });
 
     const isCollapse = ref(false);
