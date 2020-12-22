@@ -1,62 +1,150 @@
 <template>
   <div class="tabber">
-    <div
-      class="tab"
-      @click="tabClick(tab)"
-      :class="{ tab_active: tab.is_active }"
-      v-for="tab in tabs"
-    >
-      {{ tab.name }}
-      <i class="el-icon-close" @click.stop="tabClose(tab)"></i>
+    <i
+      class="el-icon-arrow-left button-icon"
+      @click="scrollLeft"
+      :class="{ is_show: left_disible }"
+    ></i>
+    <div id="tablist" class="tab-list" ref="tablist">
+      <div
+        class="tab"
+        @click="tabClick(tab)"
+        :class="{ tab_active: tab.is_active }"
+        v-for="tab in open_tabs"
+      >
+        {{ tab.name }}
+        <i class="el-icon-close" @click.stop="tabClose(tab)"></i>
+      </div>
     </div>
+    <i
+      class="el-icon-arrow-right button-icon"
+      @click="scrollRight"
+      :class="{ is_show: right_disible }"
+    ></i>
+    <el-popconfirm
+      title="确定要关闭其他窗口吗？"
+      cancelButtonText="取消"
+      confirmButtonText="确定"
+      @confirm="closeAll(false)"
+    >
+      <template #reference>
+        <i title="关闭其他窗口" class="el-icon-close button-icon"></i>
+      </template>
+    </el-popconfirm>
+
+    <el-popconfirm
+      title="确定要关闭全部窗口吗？"
+      cancelButtonText="取消"
+      confirmButtonText="确定"
+      @confirm="closeAll(true)"
+    >
+      <template #reference>
+        <i title="关闭全部窗口" class="el-icon-circle-close button-icon"></i>
+      </template>
+    </el-popconfirm>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from "vue";
+import {
+  ref,
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  onMounted,
+  onUnmounted,
+  nextTick
+} from "vue";
 import router from "/@/routers";
 import { store } from "/@/store";
 
 export default defineComponent({
   name: "ice-Tabber",
   setup() {
+    const ctx = getCurrentInstance();
+    const TabListEle: any = ref({});
+    onMounted(() => {
+      TabListEle.value = ctx.refs.tablist;
+
+      window.addEventListener("resize", refreshButton);
+    });
+    onUnmounted(() => {
+      window.removeEventListener("resize", refreshButton);
+    });
     const { fullPath, meta } = router.currentRoute.value;
+
+    const left_disible = ref<Boolean>(true);
+    const right_disible = ref<Boolean>(true);
 
     store.dispatch("tab/add", {
       name: meta.title,
       is_active: true,
       path: fullPath
     });
-    console.log();
 
-    // const tabs = ref([
-    //   {
-    //     name: meta.title,
-    //     is_active: true,
-    //     path: fullPath
-    //   }
-    // ]);
+    const refreshButton = () => {
+      nextTick(() => {
+        const { scrollLeft, scrollWidth, clientWidth } = TabListEle.value;
+        if (scrollLeft === 0) {
+          left_disible.value = true;
+        } else {
+          left_disible.value = false;
+        }
 
-    // // for (let t of tabs.value) {
-    // //   if (t.path == router.currentRoute.value.path) {
-    // //     t.is_active = true;
-    // //   }
-    // // }
-    // // tabs.value.push();
-    // const tabClick = tab => {
-    //   for (let t of tabs.value) {
-    //     t.is_active = false;
-    //   }
-    //   tab.is_active = true;
-    //   router.push(tab.path);
-    // };
-    const tabClick = tab => {
-      store.dispatch("tab/click", tab);
+        if (scrollLeft + clientWidth - scrollWidth === 0) {
+          right_disible.value = true;
+        } else {
+          right_disible.value = false;
+        }
+      });
     };
-    const tabClose = tab => {
-      store.dispatch("tab/close", tab);
+
+    const tabClick = async tab => {
+      await store.dispatch("tab/click", tab);
+
+      refreshButton();
     };
-    return { tabs: store.getters["tab/all_tabs"], tabClick, tabClose };
+    const tabClose = async tab => {
+      await store.dispatch("tab/close", tab);
+      refreshButton();
+    };
+    const closeAll = async flag => {
+      console.log("close All");
+      await store.dispatch("tab/close_all", flag);
+    };
+
+    const scroll = val => {
+      let duration = 10;
+
+      const step: number = val / duration;
+      // console.log(step);
+      const tablist: any = ctx.refs.tablist;
+      let count: number = 1;
+      const render = () => {
+        let scrollLeft = TabListEle.value.scrollLeft + step * count;
+        // console.log(scrollLeft);
+
+        TabListEle.value.scroll(scrollLeft, 0);
+        count++;
+        if (count <= duration) {
+          window.requestAnimationFrame(render);
+        } else {
+          refreshButton();
+        }
+      };
+      window.requestAnimationFrame(render);
+    };
+
+    return {
+      open_tabs: store.getters["tab/all_tabs"],
+      left_disible,
+      right_disible,
+      tabClick,
+      tabClose,
+      closeAll,
+      scrollLeft: () => scroll(-30),
+      scrollRight: () => scroll(30)
+    };
   }
 });
 </script>
@@ -64,41 +152,69 @@ export default defineComponent({
 <style lang="scss" scoped>
 $border-color: #409eff;
 $color: #409eff;
-$active-color: #cbe2f8;
+$active-color: #e4f2ff;
 .tabber {
   display: flex;
-  border-bottom: 1px solid $border-color;
-  padding: 0 0 0 8px;
-  .tab {
-    user-select: none;
-    cursor: pointer;
-    color: $color;
-    border-top: 1px solid $border-color;
-    border-right: 1px solid $border-color;
+  background-color: rgb(245, 245, 245);
+  border-bottom: 1px solid rgb(230, 230, 230);
 
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-
-    padding: 4px 20px;
-    // margin: 0 1px 0 0;
-    &:first-child {
-      border-left: 1px solid $border-color;
-
-      // border-right: 1px solid $border-color;
-    }
+  .is_show {
+    color: rgb(196, 196, 196);
     &:hover {
-      background-color: $active-color;
+      color: rgb(196, 196, 196) !important;
     }
-    i {
-      border-radius: 30px;
+  }
+  .button-icon {
+    padding: 6px 4px;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+    &:hover {
+      color: #409eff;
+    }
+  }
+  .tab-list {
+    width: 92%;
+    display: flex;
+    overflow: hidden;
+
+    margin-top: -1px;
+    .tab {
+      position: relative;
+      z-index: 2;
+
+      min-width: 65px;
+      text-align: center;
+      user-select: none;
+      cursor: pointer;
+      color: $color;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+
+      padding: 6px 20px;
       &:hover {
-        color: #000;
         background-color: $active-color;
+        border-bottom: 2px solid $border-color;
+        i {
+          display: inline !important;
+        }
+      }
+      i {
+        display: none;
+        border-radius: 30px;
+        &:hover {
+          color: #000;
+          background-color: $active-color;
+        }
       }
     }
   }
   .tab_active {
+    i {
+      display: inline !important;
+    }
     background-color: $active-color;
+    border-bottom: 2px solid $border-color;
     // color: #000;
   }
 }

@@ -1,4 +1,5 @@
 import router from "/@/routers";
+import { store } from "/@/store";
 
 /**
  *
@@ -58,6 +59,27 @@ const TabStore = {
         }
       }
       router.push(tab.path);
+    },
+    CLOSE_ALL(state: TabState, flag: boolean) {
+      console.log("CLOSE_ALL");
+      let tab;
+      for (let i in state.tabs) {
+        if (state.tabs[i].is_active) {
+          tab = state.tabs[i];
+        }
+      }
+
+      state.tabs.splice(0);
+
+      if (!flag) {
+        state.tabs.push(tab);
+      } else {
+        store.commit("tab/ADD_TAB", {
+          name: "首页",
+          is_active: true,
+          path: "/home"
+        });
+      }
     }
   },
   getters: {
@@ -74,6 +96,9 @@ const TabStore = {
     },
     click({ commit }, tab: Tab) {
       commit("CLICK_TAB", tab);
+    },
+    close_all({ commit }, flag: boolean) {
+      commit("CLOSE_ALL", flag);
     }
   }
 };

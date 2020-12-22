@@ -9,7 +9,9 @@ import "nprogress/nprogress.css"; // 进度条样式
 
 import installElementPlus from "./plugins/element";
 import { plugins } from "./plugins/lodash";
-
+import { Config } from "./utils/config";
+const { host } = Config;
+console.log(host);
 const app = createApp(App);
 
 app.use(router);

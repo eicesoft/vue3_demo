@@ -32,7 +32,6 @@ export default {
   }
 
   .title {
-    color: white;
     margin-bottom: 0;
   }
 }

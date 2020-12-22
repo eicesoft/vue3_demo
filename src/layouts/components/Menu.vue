@@ -1,11 +1,9 @@
 <template>
   <el-menu
     :collapse="collapse"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b"
     :default-active="default_route"
     router
+    class="main-menu"
   >
     <el-submenu v-for="(menu, index) in menus" :index="menu.path">
       <template #title>
@@ -57,4 +55,17 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="scss">
+.el-menu {
+  border-right: 0px !important;
+}
+.el-menu-item,
+.el-submenu__title {
+  line-height: 42px !important;
+  height: 42px !important;
+}
+.el-submenu .is-active {
+  border-right: 3px solid rgb(148, 202, 255) !important;
+  background-color: #ecf5ff !important;
+}
+</style>

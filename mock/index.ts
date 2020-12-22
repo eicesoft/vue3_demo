@@ -80,6 +80,54 @@ export default [
                 }
               ]
             },
+
+            {
+              name: "test2",
+              path: "/",
+              meta: {
+                title: "测试系统",
+                icon: "el-icon-user"
+              },
+              children: [
+                {
+                  name: "menu2",
+                  meta: {
+                    title: "菜单管理",
+                    icon: ""
+                  },
+                  path: "/menu2",
+                  component: "rbac/menu"
+                },
+                {
+                  name: "permissions2",
+                  meta: {
+                    title: "权限管理",
+                    icon: ""
+                  },
+                  path: "/permissions2",
+                  component: "rbac/permissions"
+                },
+                {
+                  name: "role2",
+                  meta: {
+                    title: "角色管理",
+                    icon: ""
+                  },
+                  path: "/role2",
+                  component: "rbac/role"
+                },
+                {
+                  name: "user2",
+                  meta: {
+                    title: "用户管理",
+                    icon: ""
+                  },
+                  path: "/user2",
+                  component: "rbac/user"
+                }
+              ]
+            },
+
             {
               name: "test",
               path: "/test",

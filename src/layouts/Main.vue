@@ -1,6 +1,6 @@
 <template>
   <el-container class="app">
-    <el-aside :width="sideWidth">
+    <el-aside :width="sideWidth" class="aside">
       <Logo :collapse="isCollapse"></Logo>
       <Menu :collapse="isCollapse"></Menu>
     </el-aside>
@@ -8,12 +8,16 @@
       <el-header style="height: auto">
         <Header :collapse="isCollapse"></Header>
       </el-header>
-      <el-main>
+      <el-main class="el-scrollbar__wrap">
         <router-view v-slot="{ Component }" :key="route.fullPath">
           <transition name="zoom-fade" mode="out-in" appear>
             <component :is="Component" />
           </transition>
         </router-view>
+
+        <el-backtop right="50" bottom="70" target=".el-scrollbar__wrap">
+          <el-button type="primary" icon="el-icon-caret-top" circle></el-button>
+        </el-backtop>
       </el-main>
       <el-footer style="height: auto">
         Copyright © 2020~2021 eIcesoft, All Rights Reserved, Version 0.9.0.1
@@ -54,7 +58,7 @@ export default defineComponent({
   setup(props, context) {
     // const { ctx } = getCurrentInstance(); //获取上下文实例，ctx=vue2的this
     // const _ = inject("lodash");
-    console.log("Inject lodash version: ", $_.VERSION);
+    // console.log("Inject lodash version: ", $_.VERSION);
     onMounted(() => {});
     const route = useRoute();
     setTitle(router.currentRoute.value.meta.title);
@@ -107,9 +111,10 @@ export default defineComponent({
   }
 
   .el-aside {
-    background-color: #545c64;
-    color: #fff;
+    background-color: #ffffff;
+    color: #000000;
     height: 100%;
+    border-right: 1px solid rgb(230, 230, 230);
   }
 
   .el-main {
