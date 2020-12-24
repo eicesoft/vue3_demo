@@ -1,30 +1,36 @@
 <template>
   <div>
-    Setting {{ count }} {{ pageStore.title }}
+    {{ pageStore.title }} {{ count }}
     <div>
-      <input type="text" :value="count" />
-      <button @click="add">Test</button>
+      <el-input type="text" v-model="count" />
+
+      <el-button @click="add">Test</el-button>
+
+      <el-input type="text" v-model="text" />
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import pageStore from "/@/store/page";
 import { useEventbus } from "/@/utils/eventbus";
+import toActions from "/@/utils/http/action";
 
 export default {
   setup() {
+    console.log("setup");
+
     const { $emit } = useEventbus();
 
-    const count = ref(0);
-    console.log("setup");
+    let count = ref(0);
+    let text = ref("");
     const add = () => {
-      count.value++;
+      count.value += 2;
       $emit("test", { count });
     };
 
-    return { count, add, pageStore: pageStore.useState() };
+    return { count, add, pageStore: pageStore.useState(), text };
   }
 };
 </script>

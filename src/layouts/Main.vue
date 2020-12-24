@@ -15,7 +15,7 @@
           </transition>
         </router-view>
 
-        <el-backtop right="50" bottom="70" target=".el-scrollbar__wrap">
+        <el-backtop :right="50" :bottom="70" target=".el-scrollbar__wrap">
           <el-button type="primary" icon="el-icon-caret-top" circle></el-button>
         </el-backtop>
       </el-main>

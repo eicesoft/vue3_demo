@@ -1,4 +1,4 @@
-import { getUserInfo } from "/@/api/user";
+import userApi from "/@/api/user";
 
 export interface User {
   name?: String;
@@ -68,11 +68,10 @@ const userStore = {
       commit("LOGOUT");
     },
     async getInfo({ commit }) {
-      const { user, menus, permissions } = await getUserInfo();
+      const { user, menus, permissions } = await userApi.getUserInfo();
       commit("SET_MENUS", menus);
       commit("SET_USER", user);
       commit("SET_PERMISSIONS", permissions);
-
       return {
         user,
         menus,

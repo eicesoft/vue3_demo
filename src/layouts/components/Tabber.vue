@@ -8,6 +8,11 @@
     <div id="tablist" class="tab-list" ref="tablist">
       <div
         class="tab"
+        @contextmenu.prevent="
+          event => {
+            tabContextMenu(event, tab);
+          }
+        "
         @click="tabClick(tab)"
         :class="{ tab_active: tab.is_active }"
         v-for="tab in open_tabs"
@@ -42,6 +47,13 @@
         <i title="关闭全部窗口" class="el-icon-circle-close button-icon"></i>
       </template>
     </el-popconfirm>
+
+    <ContextMenu
+      ref="tab_context_menu"
+      @menu-click="contextMenuClick"
+      :menus="menus"
+      :target="tab_target"
+    ></ContextMenu>
   </div>
 </template>
 
@@ -55,12 +67,37 @@ import {
   onUnmounted,
   nextTick
 } from "vue";
+import ContextMenu from "/@/components/ContextMenu.vue";
 import router from "/@/routers";
 import { store } from "/@/store";
 
+enum MenuKeys {
+  close = "close",
+  closeAll = "closeAll",
+  closeOther = "closeOther"
+}
+
 export default defineComponent({
   name: "ice-Tabber",
+  components: { ContextMenu },
+  data() {
+    return {
+      menus: [
+        { label: "关闭", key: MenuKeys.close, icon: "el-icon-close" },
+        {
+          label: "关闭其他",
+          key: MenuKeys.closeAll,
+          icon: "el-icon-circle-close"
+        },
+        { label: "关闭全部", key: MenuKeys.closeAll, icon: "el-icon-delete" }
+      ]
+    };
+  },
   setup() {
+    const isShowContextMenu = ref(false);
+    const contextMenuLeft = ref(0);
+    const contextMenuTop = ref(0);
+    const tab_target = ref({});
     const ctx = getCurrentInstance();
     const TabListEle: any = ref({});
     onMounted(() => {
@@ -135,15 +172,39 @@ export default defineComponent({
       window.requestAnimationFrame(render);
     };
 
+    const tabContextMenu = (event: MouseEvent, tab: any) => {
+      ctx.refs.tab_context_menu.show(event);
+      tab_target.value = tab;
+      return false;
+    };
+
+    const contextMenuClick = (menu, target) => {
+      switch (menu.key) {
+        case MenuKeys.close:
+          tabClose(target);
+          break;
+        case MenuKeys.closeOther:
+          closeAll(false);
+          break;
+        case MenuKeys.closeAll:
+          closeAll(true);
+          break;
+      }
+    };
+
     return {
       open_tabs: store.getters["tab/all_tabs"],
       left_disible,
       right_disible,
+      tab_target,
+
       tabClick,
       tabClose,
       closeAll,
       scrollLeft: () => scroll(-30),
-      scrollRight: () => scroll(30)
+      scrollRight: () => scroll(30),
+      tabContextMenu,
+      contextMenuClick
     };
   }
 });

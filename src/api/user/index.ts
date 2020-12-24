@@ -1,33 +1,11 @@
-import http from "/@/utils/http";
-import { RequestEnum } from "/@/utils/http/enum";
+import toActions from "/@/utils/http/action";
 
 /**
- * 登录
- * @param params
+ * 接口列表
  */
-export function doLogin(params: Object) {
-  return http.request({
-    url: "/login",
-    method: RequestEnum.POST,
-    params
-  });
-}
+const Routers = {
+  login: "POST /login", //登录
+  getUserInfo: "GET /info" //获得登录用户信息
+};
 
-export function getUserInfo() {
-  return http.request({
-    url: "/info",
-    method: RequestEnum.GET
-  });
-}
-
-/**
- * 测试
- * @param params
- */
-export function test(params: Object) {
-  return http.request({
-    url: "/test",
-    method: RequestEnum.GET,
-    params
-  });
-}
+export default toActions(Routers);
