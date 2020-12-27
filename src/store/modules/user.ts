@@ -1,5 +1,7 @@
 import userApi from "/@/api/user";
 
+console.log(userApi);
+
 export interface User {
   name?: String;
 }

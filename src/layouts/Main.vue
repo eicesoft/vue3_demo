@@ -10,9 +10,9 @@
       </el-header>
       <el-main class="el-scrollbar__wrap">
         <router-view v-slot="{ Component }" :key="route.fullPath">
-          <transition name="zoom-fade" mode="out-in" appear>
-            <component :is="Component" />
-          </transition>
+          <!-- <transition name="zoom-fade" mode="out-in" appear> -->
+          <component :is="Component" />
+          <!-- </transition> -->
         </router-view>
 
         <el-backtop :right="50" :bottom="70" target=".el-scrollbar__wrap">

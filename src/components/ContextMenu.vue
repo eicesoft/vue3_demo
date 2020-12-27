@@ -1,19 +1,21 @@
 <template>
-  <div
-    v-show="isShowContextMenu"
-    :style="{
-      top: contextMenuTop + 'px',
-      left: contextMenuLeft + 'px'
-    }"
-    class="contextmenu"
-  >
-    <ul>
-      <li @click="menuClick(menu)" v-for="menu in menus">
-        <i :class="menu.icon"></i>
-        {{ menu.label }}
-      </li>
-    </ul>
-  </div>
+  <transition name="zoom-fade">
+    <div
+      v-show="isShowContextMenu"
+      :style="{
+        top: contextMenuTop + 'px',
+        left: contextMenuLeft + 'px'
+      }"
+      class="contextmenu"
+    >
+      <ul>
+        <li @click="menuClick(menu)" v-for="menu in menus">
+          <i :class="menu.icon"></i>
+          {{ menu.label }}
+        </li>
+      </ul>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -74,31 +76,47 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$radius: 2px;
+.slide-fade-enter-active {
+  transition: all 0.8s ease;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  opacity: 1;
+}
+
 .contextmenu {
   position: fixed;
   z-index: 100;
-  background-color: #fff;
-  border: 1px solid #ececec;
+  background-color: #efefef;
+  border: 1px solid rgb(230, 230, 230);
   padding: 0px;
   user-select: none;
-  border-radius: 4px;
+  border-radius: $radius;
 
   ul {
-    border-radius: 4px;
-
+    border-radius: $radius;
     min-width: 160px;
     list-style-type: none;
     padding: 0;
     margin: 0;
     cursor: pointer;
     li {
-      border-radius: 4px;
-
       padding: 6px 10px;
       background-color: #fefefe;
       &:hover {
-        background-color: #409eff;
-        color: #ececec;
+        background-color: #cfe6fd;
+        color: #555555;
+      }
+
+      &:first-child {
+        border-top-left-radius: $radius;
+        border-top-right-radius: $radius;
+      }
+      &:last-child {
+        border-bottom-left-radius: $radius;
+        border-bottom-right-radius: $radius;
       }
     }
   }

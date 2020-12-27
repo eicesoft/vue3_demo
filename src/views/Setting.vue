@@ -11,13 +11,13 @@
   </div>
 </template>
 
-<script>
-import { ref, reactive } from "vue";
+<script lang="ts">
+import { ref, reactive, defineComponent } from "vue";
 import pageStore from "/@/store/page";
 import { useEventbus } from "/@/utils/eventbus";
 import toActions from "/@/utils/http/action";
 
-export default {
+export default defineComponent({
   setup() {
     console.log("setup");
 
@@ -32,7 +32,7 @@ export default {
 
     return { count, add, pageStore: pageStore.useState(), text };
   }
-};
+});
 </script>
 
 <style></style>

@@ -40,13 +40,13 @@ export default defineComponent({
       default: () => []
     }
   },
-  setup() {
+  setup(props) {
     const default_route = ref<String>(router.currentRoute.value.path);
 
     watch(router.currentRoute, value => {
       default_route.value = router.currentRoute.value.path;
     });
-
+    console.log(store.getters["user/menus"]);
     return {
       menus: store.getters["user/menus"],
       default_route

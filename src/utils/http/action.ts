@@ -1,17 +1,13 @@
 import http from "/@/utils/http";
 
-interface ActionInterface {
-  [propName: string]: any;
-}
-
 /**
  * 动态生成方法, 导出接口函数
  * @param {object} actions
  * 直接import userApi from "/@/api";
  * let res = await userApi.getUserInfo(params)  调用
  */
-export default function toActions(actions: any) {
-  let export_funcs: ActionInterface = {};
+export function toActions(actions: any) {
+  let export_funcs = {};
 
   for (let key in actions) {
     let action = actions[key];

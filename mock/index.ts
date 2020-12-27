@@ -83,7 +83,7 @@ export default [
 
             {
               name: "test2",
-              path: "/",
+              path: "/test2",
               meta: {
                 title: "测试系统",
                 icon: "el-icon-user"
@@ -152,7 +152,7 @@ export default [
                     icon: ""
                   },
                   path: "/setting",
-                  component: "setting"
+                  component: "Setting"
                 }
               ]
             }

@@ -1,3 +1,4 @@
+import { defineAsyncComponent } from "vue";
 import router from "./index";
 import NProgress from "nprogress"; // progress bar
 import { store } from "/@/store";
@@ -35,6 +36,7 @@ router.beforeResolve(async (to, from, next) => {
         for (let menu of menus) {
           for (let sub_router of menu.children) {
             // console.log(sub_router.component);
+            const path = `/@/views/${sub_router.component}.vue`;
             let route = {
               path: menu.path,
               redirect: sub_router.path,
@@ -46,8 +48,7 @@ router.beforeResolve(async (to, from, next) => {
                 {
                   name: menu.name + "." + sub_router.name,
                   path: sub_router.path,
-                  component: () =>
-                    import("/@/views/" + sub_router.component + ".vue")
+                  component: () => defineAsyncComponent(() => import(path))
                 }
               ]
             };
