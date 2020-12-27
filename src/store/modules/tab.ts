@@ -18,6 +18,7 @@ export interface TabState {
 }
 
 const TabStore = {
+  name: "tab",
   namespaced: true,
   state: () => ({
     tabs: [] as Tab[]

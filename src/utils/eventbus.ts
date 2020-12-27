@@ -2,29 +2,28 @@ import mitt from "mitt";
 
 const emitter: mitt.Emitter = mitt();
 
-const $emit = (eventName: String, params: Object) => {
+export function $emit(eventName: String, params: object) {
   emitter.emit(eventName, params);
-};
+}
 
-// 自定义接收器
-const $on = (eventName: String, callback: Function) => {
+export function $on(eventName: String, callback: Function) {
   emitter.on(eventName, params => {
     callback(params);
   });
-};
+}
 
-const $clear = () => {
+export function $clear() {
   emitter.all.clear();
-};
+}
 
-export const useEventbus = () => {
-  // onUnmounted(() => {
-  //   emitter.all.clear();
-  // });
+// export const useEventbus = () => {
+//   // onUnmounted(() => {
+//   //   emitter.all.clear();
+//   // });
 
-  return {
-    $emit,
-    $on,
-    $clear
-  };
-};
+//   return {
+//     $emit,
+//     $on,
+//     $clear
+//   };
+// };

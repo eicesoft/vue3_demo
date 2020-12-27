@@ -1,10 +1,10 @@
 <template>
   <div class="content">
-    Home
-    {{ state.title }}
+    {{ title }}
     <el-button @click="setTitle" size="mini" type="primary">
       el-button
     </el-button>
+    <br />
     sdgagd
     <br />
     sdgagd
@@ -204,14 +204,20 @@
 </template>
 
 <script>
-import pageStore from "/@/store/page";
+// import { store } from "/@/store";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   setup() {
+    const store = useStore();
     return {
-      state: pageStore.useState(),
+      title: computed(() => store.getters["page/title"]),
+
+      // title: store.getters["page/title"],
       setTitle: () => {
-        pageStore.setTitle("sadgadgasg");
+        store.dispatch("page/setTitle", "测试标题");
+        console.log(store);
       }
     };
   }

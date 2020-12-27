@@ -14,6 +14,7 @@ export interface UserState {
 }
 
 const userStore = {
+  name: "user",
   namespaced: true,
   state: () => ({
     menus: [],

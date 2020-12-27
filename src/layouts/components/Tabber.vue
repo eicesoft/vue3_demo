@@ -256,12 +256,12 @@ $active-color: #e4f2ff;
       &:hover {
         background-color: $active-color;
         border-bottom: 2px solid $border-color;
-        i {
-          display: inline !important;
-        }
+        // i {
+        //   display: inline !important;
+        // }
       }
       i {
-        display: none;
+        // display: none;
         border-radius: 30px;
         &:hover {
           color: #000;

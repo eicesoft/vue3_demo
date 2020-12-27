@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
     <img src="/@/assets/images/logo.png" alt="" />
-    <h2 v-if="!collapse" class="title">eIce Dashbroad</h2>
+    <h2 v-if="!collapse" class="title">Dashbroad</h2>
   </div>
 </template>
 
@@ -25,6 +25,7 @@ export default {
   line-height: 64px;
   overflow: hidden;
   white-space: nowrap;
+  background-color: rgb(46, 47, 49);
 
   img {
     height: 32px;
@@ -32,7 +33,7 @@ export default {
   }
 
   .title {
-    margin-bottom: 0;
+    // margin-bottom: 10px;
   }
 }
 </style>

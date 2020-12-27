@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, nextTick } from "vue";
 import router from "./routers";
 import { store } from "./store";
 import "./routers/permissions";
@@ -22,5 +22,4 @@ app.use(plugins);
 
 // console.log(lodash, installElementPlus);
 // app.use(lodash);
-
 app.mount("#app");

@@ -42,13 +42,12 @@ import { useRoute } from "vue-router";
 
 import router from "/@/routers";
 
-import pageStore from "/@/store/page";
 import { store } from "/@/store";
 
 import { Header, Menu, Logo } from "/@/layouts/components";
 
 const setTitle = title => {
-  pageStore.setTitle(title);
+  store.dispatch("page/setTitle", title);
   document.title = title;
 };
 
@@ -63,7 +62,7 @@ export default defineComponent({
     const route = useRoute();
     setTitle(router.currentRoute.value.meta.title);
     watch(router.currentRoute, value => {
-      console.log(value, "路由改变");
+      // console.log(value, "路由改变");
       setTitle(value.meta.title);
 
       store.dispatch("tab/add", {
@@ -106,13 +105,13 @@ export default defineComponent({
   .el-footer {
     text-align: center;
     margin: 12px 0;
-    color: rgb(92, 91, 91);
+    color: rgb(136, 136, 136);
     background-color: #ebebeb;
   }
 
   .el-aside {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #1d1e23;
+    color: #ffffff;
     height: 100%;
     border-right: 1px solid rgb(230, 230, 230);
   }

@@ -1,5 +1,5 @@
 <template>
-  <transition name="zoom-fade">
+  <el-collapse-transition>
     <div
       v-show="isShowContextMenu"
       :style="{
@@ -15,7 +15,7 @@
         </li>
       </ul>
     </div>
-  </transition>
+  </el-collapse-transition>
 </template>
 
 <script lang="ts">
@@ -94,6 +94,7 @@ $radius: 2px;
   padding: 0px;
   user-select: none;
   border-radius: $radius;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 
   ul {
     border-radius: $radius;

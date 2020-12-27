@@ -1,10 +1,11 @@
 import { createStore } from "vuex";
-import userStore from "./modules/user";
-import tabStore from "./modules/tab";
+import { userStore, tabStore, errorStore, pageStore } from "./modules/index";
 
 export const store = createStore({
   modules: {
-    user: userStore,
-    tab: tabStore
+    [userStore.name]: userStore,
+    [tabStore.name]: tabStore,
+    [errorStore.name]: errorStore,
+    [pageStore.name]: pageStore
   }
 });

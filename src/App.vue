@@ -3,19 +3,31 @@
 </template>
 
 <script>
-import { ref, computed, provide, nextTick, onUnmounted } from "vue";
-import router from "/@/routers";
+import {
+  ref,
+  computed,
+  provide,
+  nextTick,
+  onUnmounted,
+  getCurrentInstance
+} from "vue";
+import { store } from "/@/store";
 import NProgress from "nprogress"; // progress bar
-
-import pageStore from "/@/store/page";
-import axios from "axios";
-
-import { useEventbus } from "/@/utils/eventbus";
+import { $on, $clear } from "/@/utils/eventbus";
 
 export default {
   name: "App",
   setup(props, context) {
-    const { $on, $clear } = useEventbus();
+    const inst = getCurrentInstance();
+    // console.log(inst);
+    inst.appContext.config.errorHandler = (err, vm, info) => {
+      store.dispatch("error/add", {
+        err,
+        vm,
+        info
+      });
+    };
+
     onUnmounted(() => {
       $clear();
     });
@@ -36,8 +48,6 @@ export default {
     };
 
     provide("reload", reload);
-
-    pageStore.useProvide();
 
     return { isRouterAlive };
   }

@@ -2,6 +2,8 @@
   <el-menu
     :collapse="collapse"
     :default-active="default_route"
+    background-color="#1D1E23"
+    text-color="hsla(0,0%,100%,.7)"
     router
     class="main-menu"
   >
@@ -46,9 +48,10 @@ export default defineComponent({
     watch(router.currentRoute, value => {
       default_route.value = router.currentRoute.value.path;
     });
-    console.log(store.getters["user/menus"]);
+
     return {
       menus: store.getters["user/menus"],
+
       default_route
     };
   }
@@ -59,13 +62,21 @@ export default defineComponent({
 .el-menu {
   border-right: 0px !important;
 }
+.el-menu-item {
+  background-color: #101117 !important;
+  &:hover {
+    color: #fff !important;
+    background-color: #1d1e23 !important;
+  }
+}
 .el-menu-item,
 .el-submenu__title {
-  line-height: 42px !important;
-  height: 42px !important;
+  line-height: 46px !important;
+  height: 46px !important;
 }
 .el-submenu .is-active {
-  border-right: 3px solid rgb(148, 202, 255) !important;
-  background-color: #ecf5ff !important;
+  border-right: 3px solid rgba(160, 162, 175, 0.75) !important;
+  background-color: rgba(63, 64, 69, 0.75) !important;
+  color: #fff !important;
 }
 </style>
