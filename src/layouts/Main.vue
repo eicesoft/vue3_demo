@@ -9,11 +9,18 @@
         <Header :collapse="isCollapse"></Header>
       </el-header>
       <el-main class="el-scrollbar__wrap">
-        <router-view v-slot="{ Component }" :key="route.fullPath">
-          <!-- <transition name="zoom-fade" mode="out-in" appear> -->
-          <component :is="Component" />
-          <!-- </transition> -->
-        </router-view>
+        <suspense>
+          <template #default>
+            <router-view v-slot="{ Component }" :key="route.fullPath">
+              <!-- <transition name="zoom-fade" mode="out-in" appear> -->
+              <component :is="Component" />
+              <!-- </transition> -->
+            </router-view>
+          </template>
+          <template #fallback>
+            <div v-loading="true">组件加载中...</div>
+          </template>
+        </suspense>
 
         <el-backtop :right="50" :bottom="70" target=".el-scrollbar__wrap">
           <el-button type="primary" icon="el-icon-caret-top" circle></el-button>

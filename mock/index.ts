@@ -173,5 +173,27 @@ export default [
       },
       message: ""
     }
+  },
+  {
+    url: "/api/filter/list",
+    method: "get",
+    response: {
+      code: 200,
+      data: [
+        {
+          id: 1,
+          label: "测试1",
+          module: "test",
+          query: "{}"
+        },
+        {
+          id: 2,
+          label: "测试2",
+          module: "test",
+          query: "{}"
+        }
+      ],
+      message: ""
+    }
   }
 ] as MockMethod[];
