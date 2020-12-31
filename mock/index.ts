@@ -153,6 +153,15 @@ export default [
                   },
                   path: "/setting",
                   component: "Setting"
+                },
+                {
+                  name: "FormMarker",
+                  meta: {
+                    title: "FormMarker",
+                    icon: ""
+                  },
+                  path: "/form_marker",
+                  component: "FormMarker"
                 }
               ]
             }
@@ -184,13 +193,15 @@ export default [
           id: 1,
           label: "测试1",
           module: "test",
-          query: "{}"
+          query: "{}",
+          sort: 2
         },
         {
           id: 2,
           label: "测试2",
           module: "test",
-          query: "{}"
+          query: "{}",
+          sort: 1
         }
       ],
       message: ""

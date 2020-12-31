@@ -33,8 +33,11 @@ export default defineComponent({
     }
   },
   async setup(props, ctx) {
+    const { sortBy } = window.$_;
+
     let tab_list = await filterApi.getFilters({ module: props.module });
     const tabs = ref([]);
+    tab_list = sortBy(tab_list, ["sort"]);
     tabs.value = tab_list;
     const activeName = ref<string>("");
     if (tab_list.length > 0) {

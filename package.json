@@ -7,7 +7,6 @@
     "url": "https://github.com/eicesoft"
   },
   "license": "Copyright eicesoft.net",
-  "version": "0.0.0",
   "version": "0.9.1",
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
@@ -24,6 +23,7 @@
     "qs": "^6.9.4",
     "vue": "^3.0.2",
     "vue-router": "^4.0.1",
+    "vuedraggable": "^2.24.3",
     "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
