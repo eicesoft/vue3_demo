@@ -20,13 +20,13 @@ export default {
   setup(props, context) {
     const inst = getCurrentInstance();
     // console.log(inst);
-    inst.appContext.config.errorHandler = (err, vm, info) => {
-      store.dispatch("error/add", {
-        err,
-        vm,
-        info
-      });
-    };
+    // inst.appContext.config.errorHandler = (err, vm, info) => {
+    //   store.dispatch("error/add", {
+    //     err,
+    //     vm,
+    //     info
+    //   });
+    // };
 
     onUnmounted(() => {
       $clear();

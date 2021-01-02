@@ -1,0 +1,135 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1201491",
+      "name": "switch",
+      "font_class": "switch",
+      "unicode": "a",
+      "unicode_decimal": 10
+    },
+    {
+      "icon_id": "1410253",
+      "name": "check-box-outline",
+      "font_class": "check-box-outline",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "1455644",
+      "name": "copy",
+      "font_class": "copy",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "1766474",
+      "name": "符号-单行输入框",
+      "font_class": "danhangshurukuang",
+      "unicode": "e692",
+      "unicode_decimal": 59026
+    },
+    {
+      "icon_id": "1933758",
+      "name": "delete",
+      "font_class": "delete",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    },
+    {
+      "icon_id": "6664200",
+      "name": "radio",
+      "font_class": "radio",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "6986886",
+      "name": "tab",
+      "font_class": "tab",
+      "unicode": "e8c7",
+      "unicode_decimal": 59591
+    },
+    {
+      "icon_id": "7141679",
+      "name": "grid",
+      "font_class": "grid",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "8017553",
+      "name": "mdatepicker",
+      "font_class": "mdatepicker",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "10907065",
+      "name": "下拉框",
+      "font_class": "xialakuang",
+      "unicode": "e8ca",
+      "unicode_decimal": 59594
+    },
+    {
+      "icon_id": "10971961",
+      "name": "color-picker",
+      "font_class": "color-picker",
+      "unicode": "e67f",
+      "unicode_decimal": 59007
+    },
+    {
+      "icon_id": "12310851",
+      "name": "move",
+      "font_class": "move",
+      "unicode": "e8f4",
+      "unicode_decimal": 59636
+    },
+    {
+      "icon_id": "13743928",
+      "name": "html",
+      "font_class": "html",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "15196958",
+      "name": "28.富文本框",
+      "font_class": "28fuwenbenkuang",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "15536110",
+      "name": "Cloud upload",
+      "font_class": "Cloudupload",
+      "unicode": "e689",
+      "unicode_decimal": 59017
+    },
+    {
+      "icon_id": "16880964",
+      "name": "cascader",
+      "font_class": "cascader",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "16881014",
+      "name": "rate",
+      "font_class": "rate",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "16881020",
+      "name": "slider",
+      "font_class": "slider",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    }
+  ]
+}

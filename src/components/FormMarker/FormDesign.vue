@@ -1,40 +1,229 @@
 <template>
   <el-container style="height: 100%">
-    <el-aside width="200px">
-      <div v-for="(comps, key) in components">
-        {{ comps.label }}
-
-        <ul>
-          <Draggable tag="ul" v-model="comps.list" handle=".drag-item">
-            <li class="drag-item" v-for="comp in comps.list">
-              {{ comp.label }}
-            </li>
-          </Draggable>
-        </ul>
-      </div>
+    <el-aside>
+      <ToolPanel :tools="components"></ToolPanel>
     </el-aside>
     <el-container>
-      <el-header>Header</el-header>
-      <el-main>Main</el-main>
+      <el-header>
+        <el-popconfirm
+          @confirm="clear"
+          title="确定删除所有的组件么"
+          icon="el-icon-question"
+          confirmButtonText="确认"
+          cancelButtonText="取消"
+        >
+          <template #reference>
+            <el-button size="mini" round icon="el-icon-delete">
+              清除数据
+            </el-button>
+          </template>
+        </el-popconfirm>
+        <el-button size="mini" round icon="el-icon-top">导入配置</el-button>
+        <el-button
+          size="mini"
+          round
+          icon="el-icon-files"
+          type="primary"
+          @click="exportShow"
+        >
+          导出配置
+        </el-button>
+        <el-button
+          @click="previewShow"
+          size="mini"
+          round
+          icon="el-icon-mobile-phone"
+          type="success"
+        >
+          预览
+        </el-button>
+      </el-header>
+      <el-main>
+        <el-form
+          :labelPosition="form.position"
+          :label-width="form.labelWidth"
+          :size="form.size"
+        >
+          <PreviewForm
+            @select="changeCurrentSelect"
+            @remove="removeElement"
+            v-model:list="elementList"
+          ></PreviewForm>
+        </el-form>
+        {{ form }}
+      </el-main>
     </el-container>
+
+    <el-aside class="element-prepertie">
+      <ElementPropertie
+        v-model:active="elementTab"
+        v-model:form="form"
+        v-model:data="selectElement"
+      ></ElementPropertie>
+    </el-aside>
   </el-container>
+
+  <el-dialog
+    title="动态表单 (FormBuilder) 预览"
+    v-model="previewDialog"
+    width="40%"
+    :close-on-click-modal="false"
+  >
+    <FormBuilder></FormBuilder>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button size="mini" round @click="previewDialog = false">
+          关闭
+        </el-button>
+        <el-button size="mini" round type="primary" @click="getFormValues">
+          获取表单值
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+
+  <el-dialog
+    title="导出配置"
+    v-model="exportDialog"
+    width="40%"
+    :close-on-click-modal="false"
+  >
+    <el-input
+      type="textarea"
+      class="copy_area"
+      :rows="8"
+      v-model="exportConfig"
+      readonly
+    ></el-input>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button size="mini" round @click="exportDialog = false">
+          关闭
+        </el-button>
+        <el-button
+          v-clipboard:copy="exportConfig"
+          v-clipboard:success="copyCode"
+          size="mini"
+          round
+          type="primary"
+        >
+          拷贝
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import Draggable from "vuedraggable";
+import {
+  defineComponent,
+  ref,
+  reactive,
+  computed,
+  toRefs,
+  getCurrentInstance
+} from "vue";
+import draggable from "vuedraggable";
 import { Configs } from "./config";
-console.log(Configs);
+import { ElementPropertie, FormBuilder, ToolPanel } from "./index";
+
 export default defineComponent({
   name: "form_design",
-  components: { Draggable },
-  setup() {
-    const { components } = Configs;
+  components: {
+    draggable,
+    ElementPropertie,
+    FormBuilder,
+    ToolPanel
+  },
+  methods: {
+    clear() {
+      this.elementList = [];
+      this.$message.success({ message: "清除数据成功", type: "success" });
+    },
+    changeCurrentSelect(element) {
+      this.elementTab = "element";
+      this.selectElement = element;
+    },
+    removeElement(index) {
+      this.elementList.splice(index, 1);
+    },
+    previewShow() {
+      this.previewDialog = true;
+    },
+    exportShow() {
+      this.exportDialog = true;
+    },
+    getFormValues() {
+      console.log(this);
+      this.$alert("test message", "表单内容", {});
+    },
+    copyCode() {
+      this.$message.success("复制成功");
+    }
+  },
+  setup(props) {
+    const elementList = ref([]);
+    const selectElement = ref({});
+    const elementTab = ref("element");
+    const dialogVisible = reactive({
+      previewDialog: false,
+      exportDialog: false,
+      importDialog: false
+    });
+    const configs = reactive(Configs);
+
+    const exportConfig = computed(() => {
+      return JSON.stringify({
+        list: elementList.value,
+        form: configs.form
+      });
+    });
+
     return {
-      components
+      ...toRefs(configs),
+      ...toRefs(dialogVisible),
+      elementList,
+      selectElement,
+      elementTab,
+      exportConfig
     };
   }
 });
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.el-header {
+  color: #333;
+  text-align: right;
+  height: auto !important;
+  padding: 4px 10px;
+  border-bottom: 1px solid #ececec;
+}
+
+.el-aside {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.el-main {
+  color: #333;
+
+  .element-prepertie {
+    width: 200px;
+    border-left: 1px solid #ececec;
+    border-right: 0px;
+
+    padding: 0px 4px;
+  }
+}
+
+.dialog-footer {
+  text-align: center;
+}
+</style>
+
+<style>
+.dragArea {
+  min-height: 120px;
+}
+</style>

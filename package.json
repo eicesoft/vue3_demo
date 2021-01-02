@@ -21,9 +21,10 @@
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "qs": "^6.9.4",
+    "v-clipboard3": "^0.1.4",
     "vue": "^3.0.2",
     "vue-router": "^4.0.1",
-    "vuedraggable": "^2.24.3",
+    "vuedraggable": "^4.0.1",
     "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
