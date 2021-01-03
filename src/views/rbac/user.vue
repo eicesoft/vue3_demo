@@ -12,7 +12,7 @@
         </Filter>
       </template>
       <template #fallback>
-        <div v-loading="true">组件加载中...</div>
+        <el-skeleton :rows="1" animated />
       </template>
     </suspense>
   </div>

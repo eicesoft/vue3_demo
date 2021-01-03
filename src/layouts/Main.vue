@@ -6,16 +6,17 @@
     </el-aside>
     <el-container>
       <el-header style="height: auto">
+        {{ domWidth }} - {{ domHeight }}
+
         <Header :collapse="isCollapse"></Header>
       </el-header>
       <el-main class="el-scrollbar__wrap">
         <suspense>
           <template #default>
-            <router-view v-slot="{ Component }" :key="route.fullPath">
-              <!-- <transition name="zoom-fade" mode="out-in" appear> -->
-              <component :is="Component" />
-              <!-- </transition> -->
-            </router-view>
+            <RouterTransition
+              :not-need-key="true"
+              :animate="false"
+            ></RouterTransition>
           </template>
           <template #fallback>
             <div v-loading="true">组件加载中...</div>
@@ -46,16 +47,57 @@ import {
   getCurrentInstance
 } from "vue";
 import { useRoute } from "vue-router";
-
+import { usePage } from "/@/hooks/usePage";
 import router from "/@/routers";
-
 import { store } from "/@/store";
-
 import { Header, Menu, Logo } from "/@/layouts/components";
 
-const setTitle = title => {
-  store.dispatch("page/setTitle", title);
-  document.title = title;
+/**
+ * 折叠相关业务
+ */
+const useCollapse = () => {
+  const page = usePage();
+  //是否折叠
+  const isCollapse = ref(false);
+  const collapseSide = () => {
+    isCollapse.value = !isCollapse.value;
+  };
+  //页面缩小折叠菜单
+  watch(page.domWidth, value => {
+    if (value < 1000) {
+      isCollapse.value = true;
+    }
+  });
+
+  const sideWidth = computed(() => (isCollapse.value ? "64px" : "240px"));
+
+  provide("collapse", collapseSide);
+
+  return {
+    ...page,
+    isCollapse,
+    sideWidth
+  };
+};
+
+const usePageRoute = () => {
+  const setTitle = title => {
+    store.dispatch("page/setTitle", title);
+    document.title = title;
+  };
+
+  const route = useRoute();
+  setTitle(route.meta.title);
+  watch(route, value => {
+    // console.log(value, "路由改变");
+    setTitle(value.meta.title);
+
+    store.dispatch("tab/add", {
+      name: value.meta.title,
+      is_active: true,
+      path: value.fullPath
+    });
+  });
 };
 
 export default defineComponent({
@@ -63,36 +105,12 @@ export default defineComponent({
   components: { Header, Menu, Logo },
   setup(props, context) {
     // const { ctx } = getCurrentInstance(); //获取上下文实例，ctx=vue2的this
-    // const _ = inject("lodash");
     // console.log("Inject lodash version: ", $_.VERSION);
-    onMounted(() => {});
-    const route = useRoute();
-    setTitle(router.currentRoute.value.meta.title);
-    watch(router.currentRoute, value => {
-      // console.log(value, "路由改变");
-      setTitle(value.meta.title);
-
-      store.dispatch("tab/add", {
-        name: value.meta.title,
-        is_active: true,
-        path: value.fullPath
-      });
-    });
-
-    const isCollapse = ref(false);
-
-    const collapseSide = () => {
-      isCollapse.value = !isCollapse.value;
-    };
-
-    const sideWidth = computed(() => (isCollapse.value ? "64px" : "240px"));
-
-    provide("collapse", collapseSide);
+    usePageRoute();
+    const collapse = useCollapse();
 
     return {
-      route,
-      isCollapse,
-      sideWidth
+      ...collapse
     };
   }
 });
@@ -125,7 +143,7 @@ export default defineComponent({
 
   .el-main {
     background-color: #ffffff;
-    color: #111111;
+    color: #0f0f0f;
     height: 100%;
     padding: 4px;
   }

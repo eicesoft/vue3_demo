@@ -1,5 +1,5 @@
 import { createApp, nextTick } from "vue";
-import router from "./routers";
+import router from "./routers/index";
 import { store } from "./store";
 import "./routers/permissions";
 

@@ -1,30 +1,82 @@
 <template>
-  <div class="element-item" :class="{ active: active }">
-    <template v-if="data.comp_type == 'basic'">
-      <div @click.stop="elementSelectHandler(data)">
-        <el-form-item :label="data.label">
-          <template v-if="data.type == 'input'">
+  <div
+    class="element-item"
+    :class="{ active: active }"
+    @click="elementSelectHandler(data)"
+  >
+    <template v-if="data.comp_type == ElementGroup.basic">
+      <div>
+        <el-form-item
+          :show-message="false"
+          :label="data.label + ':'"
+          :required="data.options.required"
+          :prop="data.key"
+        >
+          <template v-if="data.type == ElementTypes.input">
             <el-input
               v-model="model"
-              :width="data.options.width"
               :placeholder="data.options.placeholder"
             ></el-input>
           </template>
 
-          <template v-else-if="data.type == 'textarea'">
+          <template v-else-if="data.type == ElementTypes.textarea">
             <el-input
               type="textarea"
-              :rows="3"
+              :rows="data.options.rows"
               :placeholder="data.options.placeholder"
               v-model="model"
             ></el-input>
+          </template>
+
+          <template v-else-if="data.type == ElementTypes.radio">
+            <el-radio-group v-model="data.options.defaultValue">
+              <el-radio
+                v-for="item in data.options.options"
+                :label="item.value"
+              >
+                {{ item.label }}
+              </el-radio>
+            </el-radio-group>
+          </template>
+
+          <template v-else-if="data.type == ElementTypes.checkbox">
+            <el-checkbox-group v-model="data.options.defaultValue">
+              <el-checkbox
+                v-for="item in data.options.options"
+                :label="item.value"
+              >
+                {{ item.label }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+
+          <template v-else-if="data.type == ElementTypes.select">
+            <el-select v-model="data.options.defaultValue" placeholder="请选择">
+              <el-option
+                v-for="item in data.options.options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
           </template>
         </el-form-item>
       </div>
     </template>
 
-    <template v-else-if="data.comp_type == 'layout'">
-      <template v-if="data.type == 'grid'">
+    <template v-else-if="data.comp_type == ElementGroup.view">
+      <template v-if="data.type == ElementTypes.divider">
+        <el-divider
+          @click.stop="elementSelectHandler(data)"
+          content-position="left"
+        >
+          {{ data.label }}
+        </el-divider>
+      </template>
+    </template>
+
+    <template v-else-if="data.comp_type == ElementGroup.layout">
+      <template v-if="data.type == ElementTypes.grid">
         <el-row>
           <el-col :span="col.span" v-for="col in data.columns">
             <PreviewForm v-model:list="col.list"></PreviewForm>
@@ -33,14 +85,6 @@
       </template>
     </template>
 
-    <template v-else-if="data.comp_type == 'view'">
-      <el-divider
-        @click.stop="elementSelectHandler(data)"
-        content-position="left"
-      >
-        {{ data.label }}
-      </el-divider>
-    </template>
     <template v-else>
       {{ data }}
     </template>
@@ -58,32 +102,34 @@
       <span
         v-if="data.comp_type !== 'layout'"
         class="icon iconfont icon-copy"
+        @click.stop="copy"
       ></span>
-      <span class="icon iconfont icon-delete" @click="remove"></span>
+      <span class="icon iconfont icon-delete" @click.stop="remove"></span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, PropType } from "vue";
 import draggable from "vuedraggable";
+import { ElementGroup, ElementTypes, ElementItem } from "./config";
 
 export default defineComponent({
   name: "PreviewFormItem",
   components: { draggable },
   props: {
     data: {
-      type: Object,
+      type: Object as PropType<ElementItem>,
       default: () => {
         return {};
       }
     },
     active: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: false
     },
     index: {
-      type: Number
+      type: Number as PropType<number>
     }
   },
   methods: {
@@ -92,16 +138,18 @@ export default defineComponent({
     },
     remove() {
       this.$emit("remove", this.index);
+    },
+    copy() {
+      this.$emit("copy", this.index);
     }
   },
   setup(props) {
-    const activeTab = ref("element");
-    const model = ref();
-    const selectElement = ref({});
-    const gridList = ref([]);
+    const activeTab = ref<String>("element");
+    const model = ref<any>();
+    const selectElement = ref<ElementItem>(undefined);
 
     // console.log(props.data);
-    return { activeTab, model, gridList };
+    return { activeTab, model, ElementGroup, ElementTypes };
   }
 });
 </script>
@@ -131,6 +179,6 @@ export default defineComponent({
 .el-col {
   border: 1px dashed #ececec;
   background-color: #ffffe7;
-  min-height: 40px;
+  height: 100%;
 }
 </style>

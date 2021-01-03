@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "695201",
+      "name": "移动 竖",
+      "font_class": "yidongshu",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
       "icon_id": "1201491",
       "name": "switch",
       "font_class": "switch",
@@ -109,6 +116,13 @@
       "font_class": "Cloudupload",
       "unicode": "e689",
       "unicode_decimal": 59017
+    },
+    {
+      "icon_id": "16554011",
+      "name": "editor-divider",
+      "font_class": "editor-divider",
+      "unicode": "e8bd",
+      "unicode_decimal": 59581
     },
     {
       "icon_id": "16880964",

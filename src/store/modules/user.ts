@@ -1,6 +1,6 @@
 import userApi from "/@/api/user";
 
-console.log(userApi);
+// console.log(userApi);
 
 export interface User {
   name?: String;

@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { markRaw } from "vue";
 
 import MainLayout from "/@/layouts/Main.vue";
 import EmptyLayout from "/@/layouts/Empty.vue";
@@ -19,18 +20,17 @@ import EmptyLayout from "/@/layouts/Empty.vue";
                 }
               ]
  */
-let routes = [
+let routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     redirect: "/home",
     name: "name",
-    component: () => MainLayout,
+    component: markRaw(MainLayout),
     meta: {
       title: "首页"
     },
     children: [
       {
-        displayName: "name",
         path: "/home",
         component: () => import("/@/views/Home.vue")
       }
@@ -40,34 +40,17 @@ let routes = [
     path: "/",
     redirect: "/login",
     name: "login",
-    component: () => EmptyLayout,
+    component: markRaw(EmptyLayout),
     meta: {
       title: "登录页"
     },
     children: [
       {
-        displayName: "login",
         path: "/login",
         component: () => import("/@/views/Login.vue")
       }
     ]
   }
-  // {
-  //   path: "/",
-  //   name: "setting",
-  //   redirect: "/home",
-  //   component: () => MainLayout,
-  //   meta: {
-  //     title: "设置页"
-  //   },
-  //   children: [
-  //     {
-  //       displayName: "setting",
-  //       path: "/setting",
-  //       component: () => import("/@/views/Setting.vue")
-  //     }
-  //   ]
-  // }
 ];
 
 export default createRouter({

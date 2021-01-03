@@ -1,4 +1,4 @@
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, markRaw } from "vue";
 import router from "./index";
 import NProgress from "nprogress"; // progress bar
 import { store } from "/@/store";
@@ -40,7 +40,7 @@ router.beforeResolve(async (to, from, next) => {
             let route = {
               path: menu.path,
               redirect: sub_router.path,
-              component: () => MainLayout,
+              component: markRaw(MainLayout),
               meta: {
                 title: sub_router.meta?.title
               },

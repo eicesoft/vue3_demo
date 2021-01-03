@@ -23,15 +23,16 @@
 import { defineComponent, computed, ref } from "vue";
 import draggable from "vuedraggable";
 const { uniqueId, cloneDeep } = window.$_;
+import { ElementItem } from "./config";
 
 export default defineComponent({
   components: { draggable },
   methods: {
-    cloneElement(item) {
-      let clone_item = cloneDeep(item);
-      clone_item["label"] = item["label"] + "_" + ++this.elementId;
-      clone_item["key"] = uniqueId("ele_" + new Date().getTime() + "_");
-      clone_item["comp_type"] = this.ComponentTypes[item.type];
+    cloneElement(item: ElementItem) {
+      let clone_item: ElementItem = cloneDeep(item);
+      clone_item.label = item.label + "_" + ++this.elementId;
+      clone_item.key = uniqueId("ele_" + new Date().getTime() + "_");
+      clone_item.comp_type = this.ComponentTypes[item.type];
       // console.log(clone_item);
 
       return clone_item;
@@ -56,7 +57,7 @@ export default defineComponent({
       return CompKeys;
     });
 
-    const elementId = ref(0);
+    const elementId = ref<number>(0);
 
     return { ComponentTypes, elementId };
   }
@@ -65,7 +66,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 $active_color: #409eff;
-
+$color: #969090;
 .comp-title {
   margin: 4px 2px;
   font-size: 15px;
@@ -75,8 +76,11 @@ $active_color: #409eff;
 
 .comp-item {
   display: flex;
+  flex-flow: row wrap;
+
   .element-comp {
-    border: 1px solid #919191;
+    border: 1px solid $color;
+    color: $color;
     margin: 4px;
     padding: 4px 6px;
     border-radius: 2px;

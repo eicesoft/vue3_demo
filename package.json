@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
-    "element-plus": "^1.0.1-beta.10",
+    "element-plus": "^1.0.1-beta.19",
     "lodash": "^4.17.20",
     "lodash-es": "^4.17.20",
     "mitt": "^2.1.0",

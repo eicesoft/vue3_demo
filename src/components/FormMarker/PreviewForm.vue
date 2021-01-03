@@ -19,29 +19,30 @@
   </draggable>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, PropType } from "vue";
 import draggable from "vuedraggable";
+import { ElementItem } from "./config";
 
 export default defineComponent({
   name: "PreviewForm",
   components: { draggable },
   props: {
     list: {
-      type: Array
+      type: Array as PropType<ElementItem[]>
     }
   },
   methods: {
-    selectElementHandler(element) {
+    selectElementHandler(element: ElementItem) {
       this.selectElement = element;
       this.$emit("select", element);
     },
-    removeElementHandler(index) {
+    removeElementHandler(index: number) {
       this.$emit("remove", index);
     }
   },
   setup(props, { emit }) {
-    const selectElement = ref({});
-    const nodes = computed({
+    const selectElement = ref<ElementItem>({});
+    const nodes = computed<Array<ElementItem>>({
       get: () => props.list,
       set: val => {
         console.log(val);
@@ -56,7 +57,6 @@ export default defineComponent({
 .list-group {
   border: 1px dashed #ececec;
   padding: 4px;
-  min-height: 20px;
-  // width: 100%;
+  min-height: 100px;
 }
 </style>
