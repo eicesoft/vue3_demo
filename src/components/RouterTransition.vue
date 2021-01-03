@@ -13,18 +13,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRoute } from "vue-router";
+import VueTypes from "vue-types";
 
 export default defineComponent({
   name: "RouterTransition",
   props: {
-    notNeedKey: {
-      type: Boolean,
-      default: false
-    },
-    animate: {
-      type: Boolean,
-      default: true
-    }
+    notNeedKey: VueTypes.bool.def(false),
+    animate: VueTypes.bool.def(true)
   },
   setup() {
     const route = useRoute();

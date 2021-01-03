@@ -31,8 +31,9 @@
           <template v-else-if="data.type == ElementTypes.radio">
             <el-radio-group v-model="data.options.defaultValue">
               <el-radio
-                v-for="item in data.options.options"
+                v-for="(item, index) in data.options.options"
                 :label="item.value"
+                :key="index"
               >
                 {{ item.label }}
               </el-radio>
@@ -42,8 +43,9 @@
           <template v-else-if="data.type == ElementTypes.checkbox">
             <el-checkbox-group v-model="data.options.defaultValue">
               <el-checkbox
-                v-for="item in data.options.options"
+                v-for="(item, index) in data.options.options"
                 :label="item.value"
+                :key="index"
               >
                 {{ item.label }}
               </el-checkbox>
@@ -78,7 +80,7 @@
     <template v-else-if="data.comp_type == ElementGroup.layout">
       <template v-if="data.type == ElementTypes.grid">
         <el-row>
-          <el-col :span="col.span" v-for="col in data.columns">
+          <el-col :span="col.span" v-for="col in data.columns" :key="col.key">
             <PreviewForm v-model:list="col.list"></PreviewForm>
           </el-col>
         </el-row>

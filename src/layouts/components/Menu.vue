@@ -7,7 +7,7 @@
     router
     class="main-menu"
   >
-    <el-submenu v-for="(menu, index) in menus" :index="menu.path">
+    <el-submenu v-for="(menu, index) in menus" :index="menu.path" :key="index">
       <template #title>
         <i :class="menu.meta?.icon"></i>
         <span>{{ menu.meta?.title }}</span>
@@ -16,6 +16,7 @@
         <el-menu-item
           v-for="(submenu, i) in menu.children"
           :index="submenu.path"
+          :key="i"
         >
           {{ submenu.meta?.title }}
         </el-menu-item>
@@ -26,21 +27,15 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
+import VueTypes from "vue-types";
 import { store } from "/@/store";
 import router from "/@/routers";
 
 export default defineComponent({
   name: "ice-menu",
   props: {
-    collapse: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-    routers: {
-      type: Array,
-      default: () => []
-    }
+    collapse: VueTypes.bool.def(false).isRequired,
+    routers: VueTypes.array
   },
   setup(props) {
     const default_route = ref<String>(router.currentRoute.value.path);
@@ -58,25 +53,27 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
-.el-menu {
-  border-right: 0px !important;
-}
-.el-menu-item {
-  background-color: #101117 !important;
-  &:hover {
-    color: #fff !important;
-    background-color: #1d1e23 !important;
+<style lang="scss" scoped>
+:deep {
+  .el-menu {
+    border-right: 0px !important;
   }
-}
-.el-menu-item,
-.el-submenu__title {
-  line-height: 46px !important;
-  height: 46px !important;
-}
-.el-submenu .is-active {
-  border-right: 3px solid rgba(160, 162, 175, 0.75) !important;
-  background-color: rgba(63, 64, 69, 0.75) !important;
-  color: #fff !important;
+  .el-menu-item {
+    background-color: #101117 !important;
+    &:hover {
+      color: #fff !important;
+      background-color: #1d1e23 !important;
+    }
+  }
+  .el-menu-item,
+  .el-submenu__title {
+    line-height: 46px !important;
+    height: 46px !important;
+  }
+  .el-submenu .is-active {
+    border-right: 3px solid rgba(160, 162, 175, 0.75) !important;
+    background-color: rgba(63, 64, 69, 0.75) !important;
+    color: #fff !important;
+  }
 }
 </style>

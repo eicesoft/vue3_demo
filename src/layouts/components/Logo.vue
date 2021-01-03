@@ -6,12 +6,12 @@
 </template>
 
 <script>
+import VueTypes from "vue-types";
+
 export default {
-  name: "logo",
+  name: "ice_logo",
   props: {
-    collapse: {
-      type: Boolean
-    }
+    collapse: VueTypes.bool.isRequired
   }
 };
 </script>

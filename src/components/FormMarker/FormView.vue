@@ -9,6 +9,7 @@
     <FormItemView
       @change="changeModel"
       v-for="item in data"
+      :key="item.key"
       :data="item"
     ></FormItemView>
     <el-form></el-form>
@@ -16,10 +17,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, unref } from "vue";
-import { ElementItem } from "./config";
+import { defineComponent, ref, reactive, unref, PropType } from "vue";
+import { ElementItem, PageOptions } from "./config";
 
-const builderModel = (list: Array<ElementItem>) => {
+const builderModel = (list: ElementItem[]) => {
   let model = {};
   for (let item of list) {
     model[item.key] = "";
@@ -33,11 +34,11 @@ export default defineComponent({
   components: {},
   props: {
     data: {
-      type: Object,
+      type: Object as PropType<ElementItem[]>,
       required: true
     },
     config: {
-      type: Object,
+      type: Object as PropType<PageOptions>,
       defaultd: () => {
         return {
           size: "small",
@@ -58,7 +59,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const formModel = reactive(builderModel(props.data));
+    const formModel = reactive(builderModel(props.data as ElementItem[]));
 
     return { formModel };
   }

@@ -1,13 +1,16 @@
 <template>
   <el-row>
     <el-col :span="size">
-      <el-tabs v-model="activeName" @tab-click="changeTab">
-        <el-tab-pane
-          v-for="tab in tabs"
-          :label="tab.label"
-          :name="tab.id + ''"
-        ></el-tab-pane>
-      </el-tabs>
+      <div class="filter-tabs">
+        <el-tabs v-model="activeName" @tab-click="changeTab">
+          <el-tab-pane
+            v-for="tab in tabs"
+            :label="tab.label"
+            :name="tab.id + ''"
+            :key="tab.id"
+          ></el-tab-pane>
+        </el-tabs>
+      </div>
     </el-col>
     <el-col :span="24 - size">
       <div class="right-tools">
@@ -19,18 +22,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import VueTypes from "vue-types";
 import filterApi from "/@/api/filter";
 
 export default defineComponent({
   props: {
-    module: {
-      type: String,
-      required: true
-    },
-    size: {
-      type: Number,
-      default: 16
-    }
+    module: VueTypes.string.isRequired,
+    size: VueTypes.number.def(16)
   },
   async setup(props, ctx) {
     const { sortBy } = window.$_;
@@ -54,6 +52,7 @@ export default defineComponent({
           }
         })
       );
+
       if (data) {
         ctx.emit("change", data);
       }
@@ -71,9 +70,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .right-tools {
   position: relative;
+}
 
-  /deep/ .el-tabs__header {
-    margin-bottom: 0 !important;
-  }
+:deep(.filter-tabs) .el-tabs__header {
+  margin-bottom: 0 !important;
 }
 </style>

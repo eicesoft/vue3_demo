@@ -1,5 +1,5 @@
 <template>
-  <div v-for="(comps, key) in tools">
+  <div v-for="(comps, key) in tools" :key="key">
     <div class="comp-title">{{ comps.label }}</div>
 
     <draggable
@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from "vue";
+import VueTypes from "vue-types";
 import draggable from "vuedraggable";
 const { uniqueId, cloneDeep } = window.$_;
 import { ElementItem } from "./config";
@@ -39,10 +40,7 @@ export default defineComponent({
     }
   },
   props: {
-    tools: {
-      type: Object,
-      required: true
-    }
+    tools: VueTypes.object.isRequired
   },
   setup(props) {
     const ComponentTypes = computed(() => {
@@ -57,6 +55,7 @@ export default defineComponent({
       return CompKeys;
     });
 
+    //元素ID
     const elementId = ref<number>(0);
 
     return { ComponentTypes, elementId };

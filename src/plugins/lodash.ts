@@ -17,7 +17,7 @@ export const plugins: Plugin = {
   install(app: App, options) {
     // app.provide("lodash", _);
     // console.log(">>>>>>>>>>", _);
-    // app.config.globalProperties.$_ = _;
+    app.config.globalProperties.$_ = _;
     window.$_ = _;
   }
 };

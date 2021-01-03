@@ -91,7 +91,7 @@
       v-model="exportDialog"
       width="40%"
       :close-on-click-modal="false"
-      :destroy-on-close
+      destroy-on-close
     >
       <el-input
         type="textarea"
@@ -228,13 +228,5 @@ export default defineComponent({
 
 .dialog-footer {
   text-align: center;
-}
-
-::v-deep(.form-design) {
-  .el-message-box__message {
-    p {
-      word-wrap: break-word;
-    }
-  }
 }
 </style>

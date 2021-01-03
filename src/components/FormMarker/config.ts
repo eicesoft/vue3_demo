@@ -26,19 +26,19 @@ export interface ElementColummn {
 }
 
 export interface ElementItemOption {
-  width?: String;
+  width?: string;
   defaultValue?: any;
   required?: boolean;
-  placeholder?: String;
+  placeholder?: string;
   disabled?: boolean;
 }
 
 export interface ElementItem {
   type?: ElementTypes;
   comp_type?: ElementGroup;
-  key?: String;
-  label?: String;
-  icon?: String;
+  key?: string;
+  label?: string;
+  icon?: string;
   columns?: ElementColummn[];
   options?: ElementItemOption;
 }

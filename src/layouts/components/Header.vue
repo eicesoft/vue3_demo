@@ -83,12 +83,12 @@
 
 <script lang="ts">
 import { inject, computed, defineComponent } from "vue";
+import VueTypes from "vue-types";
+import { useRouter } from "vue-router";
 
 import { ElMessage } from "element-plus";
 import { store } from "/@/store";
-
 import Tabber from "/@/layouts/components/Tabber.vue";
-import { useRouter } from "vue-router";
 
 /**
  * Topbar
@@ -151,15 +151,11 @@ export default defineComponent({
   name: "ice-header",
   components: { Tabber },
   props: {
-    collapse: {
-      type: Boolean,
-      required: true,
-      default: false
-    }
+    collapse: VueTypes.bool.def(false).isRequired
   },
   setup(props) {
     const collapse = inject("collapse");
-    const sideClass = computed(() =>
+    const sideClass = computed<string>(() =>
       props.collapse ? "el-icon-s-unfold" : "el-icon-s-fold"
     );
     return {

@@ -15,7 +15,8 @@
         "
         @click="tabClick(tab)"
         :class="{ tab_active: tab.is_active }"
-        v-for="tab in open_tabs"
+        v-for="(tab, index) in open_tabs"
+        :key="index"
       >
         {{ tab.name }}
         <i class="el-icon-close" @click.stop="tabClose(tab)"></i>
@@ -77,6 +78,12 @@ enum MenuKeys {
   closeOther = "closeOther"
 }
 
+interface Menu {
+  label?: string;
+  key?: MenuKeys;
+  icon?: string;
+}
+
 export default defineComponent({
   name: "ice-Tabber",
   components: { ContextMenu },
@@ -110,8 +117,8 @@ export default defineComponent({
     });
     const { fullPath, meta } = router.currentRoute.value;
 
-    const left_disible = ref<Boolean>(true);
-    const right_disible = ref<Boolean>(true);
+    const left_disible = ref<boolean>(true);
+    const right_disible = ref<boolean>(true);
 
     store.dispatch("tab/add", {
       name: meta.title,
@@ -151,9 +158,9 @@ export default defineComponent({
     };
 
     const scroll = val => {
-      let duration = 10;
+      let duration: number = 10;
 
-      const step: number = val / duration;
+      const step = val / duration;
       // console.log(step);
       const tablist: any = ctx.refs.tablist;
       let count: number = 1;
@@ -178,7 +185,7 @@ export default defineComponent({
       return false;
     };
 
-    const contextMenuClick = (menu, target) => {
+    const contextMenuClick = (menu: Menu, target: any) => {
       switch (menu.key) {
         case MenuKeys.close:
           tabClose(target);

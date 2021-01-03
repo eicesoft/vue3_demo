@@ -1,15 +1,12 @@
 <template>
   <el-collapse-transition>
-    <div
-      v-show="isShowContextMenu"
-      :style="{
-        top: contextMenuTop + 'px',
-        left: contextMenuLeft + 'px'
-      }"
-      class="contextmenu"
-    >
+    <div v-show="isShowContextMenu" :style="menuStyle" class="contextmenu">
       <ul>
-        <li @click="menuClick(menu)" v-for="menu in menus">
+        <li
+          @click="menuClick(menu)"
+          v-for="(menu, index) in menus"
+          :key="index"
+        >
           <i :class="menu.icon"></i>
           {{ menu.label }}
         </li>
@@ -19,27 +16,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from "vue";
+import { defineComponent, ref, onMounted, onUnmounted, reactive } from "vue";
+import VueTypes from "vue-types";
+
 export default defineComponent({
   name: "ContextMenu",
   props: {
-    target: {
-      type: Object,
-      default() {
-        return {};
-      }
-    },
-    menus: {
-      type: Array,
-      default() {
-        return [];
-      }
-    }
+    target: VueTypes.array,
+    menus: VueTypes.object
   },
   setup(props, ctx) {
-    const isShowContextMenu = ref(false);
-    const contextMenuLeft = ref(0);
-    const contextMenuTop = ref(0);
+    const isShowContextMenu = ref<boolean>(false);
+    const menuStyle = reactive<any>({ left: "0px", top: "0px" });
 
     const hide = () => {
       isShowContextMenu.value = false;
@@ -55,21 +43,19 @@ export default defineComponent({
 
     const show = (event: MouseEvent) => {
       isShowContextMenu.value = true;
-      contextMenuLeft.value = event.clientX;
-      contextMenuTop.value = event.clientY;
+      menuStyle.left = event.clientX + "px";
+      menuStyle.top = event.clientY + "px";
     };
 
     const menuClick = menu => {
-      // console.log(ctx);
       ctx.emit("menu-click", menu, props.target);
     };
 
     return {
       isShowContextMenu,
-      contextMenuLeft,
-      contextMenuTop,
       show,
-      menuClick
+      menuClick,
+      menuStyle
     };
   }
 });
@@ -77,14 +63,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 $radius: 2px;
-.slide-fade-enter-active {
-  transition: all 0.8s ease;
-}
-
-.slide-fade-enter,
-.slide-fade-leave-to {
-  opacity: 1;
-}
 
 .contextmenu {
   position: fixed;

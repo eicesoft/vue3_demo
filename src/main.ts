@@ -1,4 +1,4 @@
-import { createApp, nextTick } from "vue";
+import { createApp } from "vue";
 import router from "./routers/index";
 import { store } from "./store";
 import "./routers/permissions";

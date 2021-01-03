@@ -23,7 +23,11 @@
 
       <template v-else-if="data.type == ElementTypes.radio">
         <el-radio-group v-model="model">
-          <el-radio v-for="item in data.options.options" :label="item.value">
+          <el-radio
+            v-for="item in data.options.options"
+            :label="item.value"
+            :key="item.key"
+          >
             {{ item.label }}
           </el-radio>
         </el-radio-group>
@@ -31,7 +35,11 @@
 
       <template v-else-if="data.type == ElementTypes.checkbox">
         <el-checkbox-group v-model="model">
-          <el-checkbox v-for="item in data.options.options" :label="item.value">
+          <el-checkbox
+            v-for="item in data.options.options"
+            :label="item.value"
+            :key="item.key"
+          >
             {{ item.label }}
           </el-checkbox>
         </el-checkbox-group>
@@ -61,10 +69,11 @@
   <template v-else-if="data.comp_type == ElementGroup.layout">
     <template v-if="data.type == ElementTypes.grid">
       <el-row>
-        <el-col :span="col.span" v-for="col in data.columns">
+        <el-col :span="col.span" v-for="col in data.columns" :key="col.key">
           <FormItemView
             @change="changeModel"
             v-for="item in col.list"
+            :key="item.key"
             :data="item"
           ></FormItemView>
         </el-col>
