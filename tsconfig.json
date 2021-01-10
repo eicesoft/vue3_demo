@@ -18,6 +18,9 @@
       "lib": ["dom", "esnext"],
       "incremental": true,
       "skipLibCheck": true,
+      "types": [
+        "vite-plugin-import-context/client", "vite/client"
+      ],
       "paths": {
         "/@/*": ["src/*"]
       }

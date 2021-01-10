@@ -121,14 +121,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  toRefs,
-  getCurrentInstance
-} from "vue";
+import { defineComponent, ref, reactive, computed, toRefs } from "vue";
 import draggable from "vuedraggable";
 import { Configs, ElementItem } from "./config";
 import { ElementPropertie, ToolPanel } from "./index";
@@ -143,14 +136,15 @@ export default defineComponent({
   methods: {
     clear() {
       this.elementList = [];
-      this.selectElement = {};
+      this.selectElement = new Object();
       this.$message.success({ message: "清除数据成功", type: "success" });
     },
-    changeCurrentSelect(element) {
+    changeCurrentSelect(element: any) {
       this.elementTab = "element";
       this.selectElement = element;
+      console.log(element);
     },
-    removeElement(index) {
+    removeElement(index: number) {
       //删除当前选择项, 清除选择项
       if (this.elementList[index].key === this.selectElement.key) {
         this.selectElement = new Object();
@@ -171,9 +165,11 @@ export default defineComponent({
       this.$message.success("复制成功");
     }
   },
-  setup(props) {
+  async setup(props) {
     const elementList = ref<ElementItem[]>([]);
-    const selectElement = ref<ElementItem>({});
+    const selectElement = ref<ElementItem>({
+      options: {}
+    });
     const elementTab = ref<String>("element");
     const dialogVisible = reactive({
       previewDialog: false,

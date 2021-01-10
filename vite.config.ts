@@ -1,27 +1,30 @@
-import { resolve } from "path";
-import { createMockServer } from "vite-plugin-mock";
-import { UserConfig } from "vite";
+import path from "path";
+import { UserConfigExport, ConfigEnv } from "vite";
+import { viteMockServe } from "vite-plugin-mock";
+import vue from "@vitejs/plugin-vue";
+import dynamicImport from "vite-plugin-import-context";
+
 //https://github.com/anncwb/vue-vben-admin
-function pathResolve(dir: string) {
-  return resolve(__dirname, ".", dir);
-}
 
-const root: string = process.cwd();
-
-const alias: Record<string, string> = {
-  "/@/": pathResolve("src"),
-  "/#/": pathResolve("src/components")
+const sharedConfig = {
+  alias: {
+    "/@/": `${path.resolve(__dirname, "src")}/`,
+    "/#/": `${path.resolve(__dirname, "src/assets")}/`
+  }
 };
 
-const config: UserConfig = {
-  root,
-  alias,
-  plugins: [
-    createMockServer({
-      mockPath: "mock",
-      watchFiles: true
-    })
-  ]
+export default ({ command }: ConfigEnv): UserConfigExport => {
+  return {
+    ...sharedConfig,
+    plugins: [
+      viteMockServe({
+        mockPath: "mock",
+        localEnabled: command === "serve",
+        watchFiles: true
+      }),
+      vue(),
+      dynamicImport()
+    ]
+    // transforms: [require("vite-transform-globby-import")(sharedConfig)]
+  };
 };
-
-export default config;

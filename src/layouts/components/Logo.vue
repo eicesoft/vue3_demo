@@ -1,17 +1,22 @@
 <template>
   <div class="logo">
-    <img src="/@/assets/images/logo.png" alt="" />
+    <img :src="log_url" alt="" />
     <h2 v-if="!collapse" class="title">Dashbroad</h2>
   </div>
 </template>
 
 <script>
+import log_url from "/@/assets/images/logo.png";
+
 import VueTypes from "vue-types";
 
 export default {
   name: "ice_logo",
   props: {
     collapse: VueTypes.bool.isRequired
+  },
+  setup() {
+    return { log_url };
   }
 };
 </script>

@@ -6,7 +6,7 @@
     </el-aside>
     <el-container>
       <el-header style="height: auto">
-        {{ domWidth }} - {{ domHeight }}
+        <!-- {{ domWidth }} - {{ domHeight }} -->
 
         <Header :collapse="isCollapse"></Header>
       </el-header>
