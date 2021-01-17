@@ -13,7 +13,11 @@ const sharedConfig = {
   }
 };
 
-export default ({ command }: ConfigEnv): UserConfigExport => {
+/**
+ * type {import('vite').UserConfig}
+ */
+export default ({ command }: ConfigEnv, mode): UserConfigExport => {
+  console.log(mode);
   return {
     ...sharedConfig,
     plugins: [

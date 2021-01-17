@@ -17,6 +17,7 @@
     "crypto-es": "^1.2.6",
     "dayjs": "^1.10.0",
     "element-plus": "^1.0.1-beta.19",
+    "jsplumb": "^2.15.5",
     "lodash": "^4.17.20",
     "mitt": "^2.1.0",
     "mockjs": "^1.1.0",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.160",
     "@types/nprogress": "^0.2.0",
+    "@vitejs/plugin-vue": "^1.0.4",
     "@vue/compiler-sfc": "^3.0.5",
     "cross-env": "^7.0.2",
     "dot-prop": "^6.0.1",
@@ -45,7 +47,6 @@
     "vite": "^2.0.0-beta.12",
     "vite-plugin-import-context": "^1.0.0-beta.4",
     "vite-plugin-mock": "^2.0.0",
-    "@vitejs/plugin-vue": "^1.0.4",
     "vite-transform-globby-import": "^1.0.0-rc.7"
   }
 }
